@@ -11,8 +11,9 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(anlutro\LaravelSettings\ServiceProvider::class);
         $this->app->bind('foundation', function ($app) {
-        	return new Foundation;
+            return new Foundation;
         });
     }
 
@@ -20,9 +21,10 @@ class FoundationServiceProvider extends ServiceProvider
      * This is the boot function where I will load and make other settings
      * required when the service provider is instantiated.
      */
-    public function boot ()
+    public function boot()
     {
-    	// load the routes file
+        // load the routes file
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/./../assets/views', 'inferno-foundation');
     }
 }
