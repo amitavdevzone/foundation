@@ -13,10 +13,11 @@
             "Inferno\\Foundation\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "require": {
         "illuminate/support": "~5",
         "anlutro/l4-settings": "^0.5.0",
         "laracasts/flash": "^2.0"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -3,6 +3,7 @@
 namespace Inferno\Foundation;
 
 use Illuminate\Support\ServiceProvider;
+use anlutro\LaravelSettings\ServiceProvider as SettingsServiceProvider;
 
 class FoundationServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,7 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(anlutro\LaravelSettings\ServiceProvider::class);
+        $this->app->register(SettingsServiceProvider::class);
         $this->app->bind('foundation', function ($app) {
             return new Foundation;
         });
