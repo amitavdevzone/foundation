@@ -1,0 +1,20 @@
+{
+    "name": "amitavdevzone/foundation",
+    "description": "The foundation package for Inferno",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Amitav Roy",
+            "email": "reachme@amitavroy.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Inferno\\Foundation\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "~5"
+    }
+}
