@@ -2,8 +2,10 @@
 
 namespace Inferno\Foundation;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use anlutro\LaravelSettings\ServiceProvider as SettingsServiceProvider;
+use Laracasts\Flash\FlashServiceProvider;
+use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
 
 class FoundationServiceProvider extends ServiceProvider
 {
@@ -12,10 +14,22 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(SettingsServiceProvider::class);
+        $this->app->register(SettingServiceProvider::class);
+        $this->app->register(FlashServiceProvider::class);
+
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Setting', 'anlutro\LaravelSettings\Facade');
+        $loader->alias('Flash', 'Laracasts\Flash\Facade');
+
         $this->app->bind('foundation', function ($app) {
             return new Foundation;
         });
+
+        $this->mergeConfigFrom(
+            __DIR__.'/./../publishable/foundation.php', 'foundation'
+        );
+
+        $this->registerPublishables();
     }
 
     /**
@@ -27,5 +41,29 @@ class FoundationServiceProvider extends ServiceProvider
         // load the routes file
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadViewsFrom(__DIR__.'/./../assets/views', 'inferno-foundation');
+    }
+
+    /**
+     * This function will register what needs to be published
+     * and where the resources needs to go.
+     */
+    public function registerPublishables()
+    {
+        // get the base path
+        $basePath = dirname(__DIR__);
+
+        // list of things to publish
+        $arrPublishable = [
+            'inferno_assets' => [
+                "$basePath/assets" => public_path('vendor/amitavdevzone/foundation/assets')
+            ],
+            'config' => [
+                "$basePath/publishable/foundation.php" => config_path('foundation.php'),
+            ],
+        ];
+
+        foreach ($arrPublishable as $group => $paths) {
+            $this->publishes($paths, $group);
+        }
     }
 }
