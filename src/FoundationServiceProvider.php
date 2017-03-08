@@ -26,7 +26,7 @@ class FoundationServiceProvider extends ServiceProvider
         });
 
         $this->mergeConfigFrom(
-            __DIR__.'/./../publishable/foundation.php', 'foundation'
+            __DIR__.'/./../publishable/config/foundation.php', 'foundation'
         );
 
         $this->registerPublishables();
@@ -40,7 +40,7 @@ class FoundationServiceProvider extends ServiceProvider
     {
         // load the routes file
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        $this->loadViewsFrom(__DIR__.'/./../assets/views', 'inferno-foundation');
+        $this->loadViewsFrom(__DIR__.'/./../resources/views', 'inferno-foundation');
     }
 
     /**
@@ -55,10 +55,10 @@ class FoundationServiceProvider extends ServiceProvider
         // list of things to publish
         $arrPublishable = [
             'inferno_assets' => [
-                "$basePath/assets" => public_path('vendor/amitavdevzone/foundation/assets')
+                "$basePath/publishable/assets" => public_path('vendor/amitavdevzone/foundation/assets')
             ],
             'config' => [
-                "$basePath/publishable/foundation.php" => config_path('foundation.php'),
+                "$basePath/publishable/config/foundation.php" => config_path('foundation.php'),
             ],
         ];
 

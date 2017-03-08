@@ -9,7 +9,7 @@ class GuestController extends Controller
     /**
      * This is the function to return the login page.
      */
-    public function getLogin(Request $request)
+    public function postLogin(Request $request)
     {
     	$this->validate($request, [
     		'email' => 'required|email',
