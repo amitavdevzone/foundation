@@ -2,7 +2,7 @@
 
 return [
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Path to the Inferno assets
     |--------------------------------------------------------------------------
@@ -10,5 +10,5 @@ return [
     | Here you can specify the location of the inferno assets path
     |
     */
-	'assets_path' => '/vendor/amitavdevzone/foundation/assets',
+    'assets_path' => '/vendor/amitavdevzone/foundation/assets',
 ];

@@ -23,6 +23,8 @@
       </div>
       <button type="submit" class="btn btn-primary btn-block btn-flat">Login In</button>
     </form>
+    <br/>
+    <a href="{{route('forgot-password')}}">I forgot my password</a><br>
   </div>
   <!-- /.login-box-body -->
 @endsection

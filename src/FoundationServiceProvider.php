@@ -3,6 +3,7 @@
 namespace Inferno\Foundation;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Flash\FlashServiceProvider;
 use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
@@ -38,6 +39,8 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+
         // load the routes file
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadViewsFrom(__DIR__.'/./../resources/views', 'inferno-foundation');
@@ -60,6 +63,9 @@ class FoundationServiceProvider extends ServiceProvider
             'config' => [
                 "$basePath/publishable/config/foundation.php" => config_path('foundation.php'),
             ],
+            'migrations' => [
+                "$basePath/publishable/database/migrations" => database_path('migrations'),
+            ]
         ];
 
         foreach ($arrPublishable as $group => $paths) {
