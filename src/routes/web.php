@@ -9,4 +9,10 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
     /*Forgot password*/
     Route::get('forgot-password', ['as' => 'forgot-password', 'uses' => 'GuestController@getForgotPassword']);
     Route::post('password/send', ['as' => 'password-send', 'uses' => 'GuestController@postSendForgotPassword']);
+
+    /*Authenticated routes*/
+    Route::group(['middleware' => 'auth'], function() {
+    	Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@getHomePage']);
+    	Route::post('/logout', ['as' => 'logout', 'uses' => 'HomeController@postLogout']);
+    });
 });
