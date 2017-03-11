@@ -4,6 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
+        <!-- <img src="{{Auth::user()->present()->profilePic}}" alt="{{Auth::user()->name}}" class="img-circle"> -->
         <user-image
           img-class="img-circle"
           src="{{Auth::user()->present()->profilePic}}"

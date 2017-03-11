@@ -14,6 +14,7 @@
 		  <!-- Main content -->
 		  <section class="content">
 		    @yield('content')
+		    @{{message}}
 		  </section>
 		  <!-- /.content -->
 		</div>

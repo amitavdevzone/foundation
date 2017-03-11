@@ -8,6 +8,7 @@ class UserPresenter extends Presenter
 {
 	public function profilePic()
 	{
-		return '';
+		$assetPath = config('foundation.assets_path');
+		return url($assetPath . '/img/avatar.png');
 	}
 }
