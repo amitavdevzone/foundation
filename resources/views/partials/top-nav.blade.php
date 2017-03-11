@@ -225,7 +225,7 @@
                 alt="{{Auth::user()->name}}">
               </user-image>
               <p>
-                {{Auth::user()->name}} - {{Auth::user()}}
+                {{Auth::user()->name}} - {{Auth::user()->profile->designation}}
                 <small>Member since Nov. 2012</small>
               </p>
             </li>

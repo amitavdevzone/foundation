@@ -25,12 +25,19 @@ to publish like the migrations, seeders, assets for themes, views etc.
 
     php artisan vendor:publish --provider="Inferno\Foundation\FoundationServiceProvider" --force
 
-Once this is done, you need to add the Presentable trait to the User model. We
-will be using the Presenter package from Laracasts and so this setting is
-important. Add the following code to your User model inside your app directory
+Once this is done, you will need to make a few additions to your user model like
+1. You need to add the Presentable trait to the User model. We will be using the Presenter package from Laracasts and so this setting is important.
+2. You will need to add the profile relation with the user
+
+Add the following code to your User model inside your app directory
 
     use PresentableTrait;
     protected $presenter = UserPresenter::class;
+
+    public function profile()
+    {
+        return $this->hasOne('Inferno\Foundation\Models\Profile');
+    }
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.
