@@ -9,6 +9,12 @@ code to this package.
 2. Forgot password (uses Laravel mail to sendout emails)
 3. Watchdog
 
+## Requirements
+The application uses Vue components for many of the widgets in the app. And many of
+them needs the Laravel passport package installed and setup so that the package
+can consume apis. For more details on how to install Laravel Passport, you can
+refer to the docs: https://laravel.com/docs/5.4/passport
+
 ## Installation
 The first step is to install this package using composer require and you need to
 run the below command:
