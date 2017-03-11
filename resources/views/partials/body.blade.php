@@ -1,4 +1,5 @@
-<body class="hold-transition skin-red-light sidebar-mini">
+<body class="hold-transition skin-red-light sidebar-mini
+	{{ (Auth::user()->profile->options['sidebar']) ? 'sidebar-collapse' : '' }}"">
 	<div class="wrapper" id="app">
 		@include('inferno-foundation::partials.top-nav')
 		<!-- Left side column. contains the logo and sidebar -->

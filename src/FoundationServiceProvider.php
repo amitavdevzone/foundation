@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Flash\FlashServiceProvider;
+use Laravel\Passport\PassportServiceProvider;
 use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
 
 class FoundationServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class FoundationServiceProvider extends ServiceProvider
     {
         $this->app->register(SettingServiceProvider::class);
         $this->app->register(FlashServiceProvider::class);
+        $this->app->register(PassportServiceProvider::class);
 
         $loader = AliasLoader::getInstance();
         $loader->alias('Setting', 'anlutro\LaravelSettings\Facade');
@@ -43,6 +45,7 @@ class FoundationServiceProvider extends ServiceProvider
 
         // load the routes file
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadViewsFrom(__DIR__.'/./../resources/views', 'inferno-foundation');
     }
 
