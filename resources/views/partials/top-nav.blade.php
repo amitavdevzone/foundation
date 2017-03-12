@@ -2,7 +2,7 @@
   <!-- Logo -->
   <a href="{{route('home')}}" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>{{Setting::get('app_short_name', 'ALT')}}</b></span>
+    <span class="logo-mini"><b>{{Setting::get('app_short_name', 'INF')}}</b></span>
     <!-- logo for regular state and mobile devices -->
     <span class="logo-lg"><b>{{Setting::get('app_name', 'INFERNO')}}</b></span>
   </a>

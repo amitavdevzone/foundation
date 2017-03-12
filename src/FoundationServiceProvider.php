@@ -6,6 +6,8 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Inferno\Foundation\FoundationEventProvider;
+use Inferno\Foundation\Repositories\Watchdog\EloquentWatchdog;
+use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 use Laracasts\Flash\FlashServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
 use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
@@ -37,6 +39,8 @@ class FoundationServiceProvider extends ServiceProvider
         );
 
         $this->registerPublishables();
+
+        $this->app->bind(WatchdogRepository::class, EloquentWatchdog::class);
     }
 
     /**

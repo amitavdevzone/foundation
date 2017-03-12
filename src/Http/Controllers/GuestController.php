@@ -5,6 +5,7 @@ namespace Inferno\Foundation\Http\Controllers;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Inferno\Foundation\Events\User\Login;
 
 class GuestController extends Controller
 {
@@ -24,14 +25,10 @@ class GuestController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
-        }
-
-        $credentials = $this->credentials($request);
-        $credentials['active'] = 1;
+        $credentials = $this->getCustomCredentials($request);
 
         if ($this->guard()->attempt($credentials, $request->has('remember'))) {
+            event(new Login);
             return $this->sendLoginResponse($request);
         }
 

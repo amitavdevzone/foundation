@@ -13,14 +13,12 @@ class Controller extends BaseController
     use ValidatesRequests, AuthorizesRequests, DispatchesJobs;
 
     /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * This is the function to return the credentials from
+     * the request object. Added the status code as well.
      */
-    protected function credentials(Request $request)
+    public function getCustomCredentials(Request $request)
     {
-    	$request['active'] = 1;
+        $request->request->add(['active' => 1]);
         return $request->only($this->username(), 'password', 'active');
     }
 }
