@@ -6,4 +6,5 @@ Route::group([
     'middleware' => ['api', 'auth:api'],
     'prefix' => 'api/v1/'], function () {
         Route::post('sidebar-toggle', 'UserApiController@postSidebarToggle');
+        Route::post('image-upload', 'UserApiController@postUploadProfilePic');
     });

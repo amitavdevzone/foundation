@@ -226,7 +226,7 @@
               </user-image>
               <p>
                 {{Auth::user()->name}} - {{Auth::user()->profile->designation}}
-                <small>Member since Nov. 2012</small>
+                <small>Member since {{ Auth::user()->present()->memberSince }}</small>
               </p>
             </li>
             <!-- Menu Body -->
@@ -247,7 +247,7 @@
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat" id="user-profile-link">
+                <a href="{{ route('profile') }}" class="btn btn-default btn-flat" id="user-profile-link">
                   Profile
                 </a>
               </div>

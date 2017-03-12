@@ -14,5 +14,9 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function() {
     	Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@getHomePage']);
     	Route::post('/logout', ['as' => 'logout', 'uses' => 'HomeController@postLogout']);
+
+        Route::get('user/profile', ['as' => 'profile', 'uses' => 'HomeController@pageUserProfile']);
+        Route::post('user/profile', ['as' => 'update-profile', 'uses' => 'HomeController@postUpdateProfile']);
+        Route::post('user/password-change', ['as' => 'change-password', 'uses' => 'HomeController@postHandlePasswordChange']);
     });
 });

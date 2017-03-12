@@ -13,7 +13,10 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        $options = [
+            'sidebar' => true,
+        ];
+        Schema::create('profiles', function (Blueprint $table) use ($options) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('profile_pic')->default('');
