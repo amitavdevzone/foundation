@@ -5,6 +5,7 @@ namespace Inferno\Foundation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Inferno\Foundation\FoundationEventProvider;
 use Laracasts\Flash\FlashServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
 use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
@@ -16,6 +17,9 @@ class FoundationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(FoundationEventProvider::class);
+
+        // Register the packages
         $this->app->register(SettingServiceProvider::class);
         $this->app->register(FlashServiceProvider::class);
         $this->app->register(PassportServiceProvider::class);
