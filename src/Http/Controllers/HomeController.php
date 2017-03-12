@@ -5,6 +5,7 @@ namespace Inferno\Foundation\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inferno\Foundation\Events\User\Logout;
 use Inferno\Foundation\Events\User\PasswordChanged;
 use Inferno\Foundation\Http\Requests\ChangePasswordRequest;
 use Inferno\Foundation\Http\Requests\UpdateProfileRequest;
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function postLogout(Request $request)
     {
+        event(new Logout);
         Auth::logout();
         flash('You have been logged out');
         return redirect('/');

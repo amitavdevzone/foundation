@@ -5,6 +5,7 @@ namespace Inferno\Foundation\Http\Controllers\Api;
 use App\User;
 use Illuminate\Http\Request;
 use Inferno\Foundation\Http\Controllers\Controller;
+use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 
 class UserApiController extends Controller
 {
@@ -54,5 +55,21 @@ class UserApiController extends Controller
         $user->profile->save();
 
         return response(['data' => $imageUrl], 201);
+    }
+
+    /**
+     * This is the function to return user activity data
+     * for the graph on home page
+     */
+    public function postUserActivityGraph(Request $request, WatchdogRepository $watchdog)
+    {
+        $data = $watchdog->getUserActivityGraph(1);
+        $finalData = [];
+        foreach ($data as $key => $value) {
+            $finalData['labels'][$key] = $value->date;
+            $finalData['count'][$key] = $value->count;
+        }
+
+        return response(['data' => $finalData], 200);
     }
 }

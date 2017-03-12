@@ -4,6 +4,7 @@ namespace Inferno\Foundation\Listeners;
 
 use Illuminate\Support\Facades\Auth;
 use Inferno\Foundation\Events\User\Login;
+use Inferno\Foundation\Events\User\Logout;
 use Inferno\Foundation\Events\User\PasswordChanged;
 use Inferno\Foundation\Services\Logger;
 
@@ -28,6 +29,15 @@ class UserEventListeners
 	}
 
 	/**
+	 * Handling the event for User logout
+	 */
+	public function userLogout()
+	{
+		$userName = Auth::user()->name;
+		$this->logger->log("User {$userName} logged out");
+	}
+
+	/**
 	 * Handling the user password changed event
 	 */
 	public function userPasswordChanged()
@@ -44,5 +54,6 @@ class UserEventListeners
 		$class = 'Inferno\Foundation\Listeners\UserEventListeners';
 		$events->listen(PasswordChanged::class, "{$class}@userPasswordChanged");
 		$events->listen(Login::class, "{$class}@userLoggedIn");
+		$events->listen(Logout::class, "{$class}@userLogout");
 	}
 }

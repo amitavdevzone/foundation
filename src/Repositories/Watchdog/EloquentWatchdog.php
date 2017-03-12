@@ -47,15 +47,9 @@ class EloquentWatchdog extends AbstractRepository implements WatchdogRepository
 
         $query->groupBy('date');
         $query->limit(20);
-        $query->orderBy('created_at', 'desc');
+        $query->orderBy('created_at', 'asc');
         $data = $query->get();
 
-        $rowData = [];
-
-        foreach ($data as $row) {
-            $rowData[] = [$row->date, $row->count];
-        }
-
-        return $rowData;
+        return $data;
     }
 }

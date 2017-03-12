@@ -7,4 +7,5 @@ Route::group([
     'prefix' => 'api/v1/'], function () {
         Route::post('sidebar-toggle', 'UserApiController@postSidebarToggle');
         Route::post('image-upload', 'UserApiController@postUploadProfilePic');
+        Route::post('activity-graph', 'UserApiController@postUserActivityGraph');
     });
