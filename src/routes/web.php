@@ -12,7 +12,8 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
 
     /*Authenticated routes*/
     Route::group(['middleware' => 'auth'], function() {
-    	Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@getHomePage']);
+        Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@getHomePage']);
+    	Route::get('/activities', ['as' => 'user-activities', 'uses' => 'HomeController@getUserActivities']);
     	Route::post('/logout', ['as' => 'logout', 'uses' => 'HomeController@postLogout']);
 
         Route::get('user/profile', ['as' => 'profile', 'uses' => 'HomeController@pageUserProfile']);

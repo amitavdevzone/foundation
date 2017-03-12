@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Inferno\Foundation\Events\User\PasswordChanged;
 use Inferno\Foundation\Http\Requests\ChangePasswordRequest;
 use Inferno\Foundation\Http\Requests\UpdateProfileRequest;
+use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 
 class HomeController extends Controller
 {
@@ -86,5 +87,19 @@ class HomeController extends Controller
 
         flash('Check if your current password is correct.', 'warning');
         return redirect()->back();
+    }
+
+    /**
+     * This function will return the User activity listing page
+     */
+    public function getUserActivities(Request $request, WatchdogRepository $watchdog)
+    {
+        $options = [
+            'search_text' => $request->input('search_text'),
+            'level' => $request->input('level'),
+        ];
+
+        $rows = $watchdog->getUserActivityList($request->user()->id, $options);
+        return view('inferno-foundation::watchdog', compact('rows', 'options'));
     }
 }

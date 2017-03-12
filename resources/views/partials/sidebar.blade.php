@@ -33,6 +33,10 @@
       <li class="{{ Request::is('home') ? 'active' : ''  }} treeview">
         <a href="{{route('home')}}"><i class="fa fa-dashboard"></i><span>Home</span></a>
       </li>
+      @stack('sidebar-links')
+      <li class="{{ Request::is('activities') ? 'active' : ''  }} treeview">
+        <a href="{{route('user-activities')}}"><i class="fa fa-line-chart"></i><span>My activities</span></a>
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->
