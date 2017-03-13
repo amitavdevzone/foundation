@@ -31,5 +31,9 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
         Route::get('user/profile', ['as' => 'profile', 'uses' => 'HomeController@pageUserProfile']);
         Route::post('user/profile', ['as' => 'update-profile', 'uses' => 'HomeController@postUpdateProfile']);
         Route::post('user/password-change', ['as' => 'change-password', 'uses' => 'HomeController@postHandlePasswordChange']);
+
+        Route::get('admin/user/roles', ['as' => 'manage-roles', 'uses' => 'AdminController@getManageRoles']);
+        Route::post('admin/user/role-save', ['as' => 'save-role', 'uses' => 'AdminController@postSaveRoles']);
+        Route::get('admin/user/role/{id}', ['as' => 'edit-role', 'uses' => 'AdminController@getManageRoles']);
     });
 });

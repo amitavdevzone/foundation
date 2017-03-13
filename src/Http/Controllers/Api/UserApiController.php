@@ -63,7 +63,7 @@ class UserApiController extends Controller
      */
     public function postUserActivityGraph(Request $request, WatchdogRepository $watchdog)
     {
-        $data = $watchdog->getUserActivityGraph(1);
+        $data = $watchdog->getUserActivityGraph($request->user()->id);
         $finalData = [];
         foreach ($data as $key => $value) {
             $finalData['labels'][$key] = $value->date;

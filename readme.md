@@ -10,6 +10,9 @@ code to this package.
 3. Watchdog
 
 ## Requirements
+1. Laravel Passport
+2. Spatie Laravel Permission
+
 The application uses Vue components for many of the widgets in the app. And many of
 them needs the Laravel passport package installed and setup so that the package
 can consume apis. For more details on how to install Laravel Passport, you can
@@ -44,6 +47,9 @@ Add the following code to your User model inside your app directory
     {
         return $this->hasOne('Inferno\Foundation\Models\Profile');
     }
+
+And make sure you have an additional $fillable property 'active' which we are
+using to deletect whether the user is active or not.
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.

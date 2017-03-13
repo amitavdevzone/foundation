@@ -5,11 +5,13 @@ namespace Inferno\Foundation;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Inferno\Foundation\Commands\InstallCommand;
 use Inferno\Foundation\FoundationEventProvider;
 use Inferno\Foundation\Repositories\Watchdog\EloquentWatchdog;
 use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 use Laracasts\Flash\FlashServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
+use Spatie\Permission\PermissionServiceProvider;
 use anlutro\LaravelSettings\ServiceProvider as SettingServiceProvider;
 
 class FoundationServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class FoundationServiceProvider extends ServiceProvider
         $this->app->register(SettingServiceProvider::class);
         $this->app->register(FlashServiceProvider::class);
         $this->app->register(PassportServiceProvider::class);
+        $this->app->register(PermissionServiceProvider::class);
 
         $loader = AliasLoader::getInstance();
         $loader->alias('Setting', 'anlutro\LaravelSettings\Facade');
@@ -39,6 +42,7 @@ class FoundationServiceProvider extends ServiceProvider
         );
 
         $this->registerPublishables();
+        $this->registerCommands();
 
         $this->app->bind(WatchdogRepository::class, EloquentWatchdog::class);
     }
@@ -82,5 +86,13 @@ class FoundationServiceProvider extends ServiceProvider
         foreach ($arrPublishable as $group => $paths) {
             $this->publishes($paths, $group);
         }
+    }
+
+    /**
+     * This function will register all commands for Inferno
+     */
+    public function registerCommands()
+    {
+        $this->commands(InstallCommand::class);
     }
 }
