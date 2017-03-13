@@ -65,7 +65,6 @@
           <table class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>#</th>
               <th>Description</th>
               <th>Level</th>
               <th>IP Address</th>
@@ -75,9 +74,8 @@
             </thead>
 
             <tbody>
-            @foreach($rows as $watchdog)
+            @foreach($rows as $key => $watchdog)
               <tr>
-                <td>{{$watchdog->id}}</td>
                 <td>{{$watchdog->description}}</td>
                 <td>{{$watchdog->level}}</td>
                 <td>{{$watchdog->ip_address}}</td>

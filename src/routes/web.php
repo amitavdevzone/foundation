@@ -1,21 +1,15 @@
 <?php
 
-use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 $namespace = "Inferno\Foundation\Http\Controllers";
 
 Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
-    Route::get('test', function (WatchdogRepository $w) {
-        $data = $w->getUserActivityGraph(1);
-        $finalData = [];
-        foreach ($data as $key => $value) {
-            $finalData['labels'][$key] = $value->date;
-            $finalData['count'][$key] = $value->count;
-        }
-
-        return response(['data' => $finalData], 200);
-    });
 	/*Login*/
-    Route::get('login', function () {return view('inferno-foundation::login');});
+    Route::get('login', function () {
+        if(Auth::user()) {
+            return redirect()->route('home');
+        }
+        return view('inferno-foundation::login');
+    });
     Route::post('login', ['as' => 'login', 'uses' => 'GuestController@postLogin']);
 
     /*Forgot password*/
