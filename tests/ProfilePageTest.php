@@ -64,6 +64,20 @@ class ProfilePageTest extends DuskTestCase
         });
     }
 
+    public function test_two_different_password_fails_password_change()
+    {
+        $this->browse(function (Browser $browser) {
+        	$user = User::where('email', 'admin@admin.com')->first();
+            $browser->loginAs(User::find($user->id))
+            	->visit($this->path)
+            	->type('current_password', 'wrongpassword')
+            	->type('new_password', 'Password1')
+            	->type('confirm_password', 'Password2')
+            	->click($this->changePasswordBtn)
+            	->assertSee('Both the password are not same.');
+        });
+    }
+
     public function test_user_can_change_password_correctly_and_login_back()
     {
         $this->browse(function (Browser $browser) {
