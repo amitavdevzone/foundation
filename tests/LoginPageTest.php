@@ -43,7 +43,7 @@ class LoginPageTest extends DuskTestCase
     public function test_wrong_password_fails_login()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit($this->path)
+            $browser->visit('/login')
             ->type('email', 'admin@admin.com')
             ->type('password', 'wrongpassword')
             ->click($this->loginBtn)
@@ -55,7 +55,7 @@ class LoginPageTest extends DuskTestCase
     public function test_logged_in_user_should_not_see_login_page()
     {
         $this->browse(function (Browser $browser) {
-        	$user = User::where('email', 'admin@admin.com')->first();
+            $user = User::where('email', 'admin@admin.com')->first();
             $browser->loginAs(User::find($user->id))
             	->visit($this->path)
             	->assertPathIs('/home');
