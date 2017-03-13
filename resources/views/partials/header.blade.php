@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ config('foundation.assets_path') . '/css/AdminLTE.min.css' }}">
   <link rel="stylesheet" href="{{ config('foundation.assets_path') . '/css/_all-skins.min.css' }}">
   <link rel="stylesheet" href="{{ config('foundation.assets_path') . '/css/app.css' }}">
+  @yield('styles')
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

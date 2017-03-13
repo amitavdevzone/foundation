@@ -44,6 +44,9 @@
             </span>
         </a>
         <ul class="treeview-menu">
+          <li class="{{ Request::is('admin/user/manage') ? 'active' : ''  }}">
+            <a href="{{route('manage-users')}}"><i class="fa fa-circle-o"></i> Manage Users</a>
+          </li>
           <li class="{{ Request::is('admin/user/roles') ? 'active' : ''  }}">
             <a href="{{route('manage-roles')}}"><i class="fa fa-circle-o"></i> Manage Roles</a>
           </li>

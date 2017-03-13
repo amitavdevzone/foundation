@@ -2,8 +2,13 @@
 
 namespace Inferno\Foundation\Http\Controllers;
 
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\Permissions\PermissionCreated;
 use Inferno\Foundation\Events\Roles\RoleCreated;
+use Inferno\Foundation\Events\User\UserEdited;
 use Inferno\Foundation\Http\Requests\SavePermissionRequest;
 use Inferno\Foundation\Http\Requests\SaveRoleRequest;
 use Spatie\Permission\Models\Permission;
@@ -104,6 +109,62 @@ class AdminController extends Controller
         $permission->save();
 
         flash('Permission was updated');
+        return redirect()->back();
+    }
+
+    /**
+     * This function will return the manage users page.
+     */
+    public function getManageUsers()
+    {
+        $users = User::orderBy('name', 'asc')->paginate(10);
+        return view('inferno-foundation::manage-users', compact('users'));
+    }
+
+    /**
+     * This page will return the edit page user.
+     */
+    public function getEditUser($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::orderBy('name', 'asc')->get();
+        return view('inferno-foundation::user-edit', compact('user', 'roles'));
+    }
+
+    /**
+     * Handle the User update request.
+     */
+    public function postUpdateUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3|max:255',
+            'role' => 'required|array',
+            'active' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            flash('Validations failed.');
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $user = User::find($request->input('id'));
+        $user->name = $request->input('name');
+        $user->active = $request->input('active');
+        $user->save();
+
+        $roles = $request->input('role');
+        $fetchRoles = Role::whereIn('id', $roles)->get();
+        $assignRoles = [];
+
+        foreach ($fetchRoles as $role) {
+            $assignRoles[] = $role->name;
+        }
+
+        DB::table('user_has_roles')->where('user_id', $user->id)->delete();
+        $user->assignRole($assignRoles);
+
+        flash('User updated successfully.');
+        event(new UserEdited($user));
         return redirect()->back();
     }
 }

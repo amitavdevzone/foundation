@@ -7,6 +7,7 @@ use Inferno\Foundation\Events\User\Deleted;
 use Inferno\Foundation\Events\User\Login;
 use Inferno\Foundation\Events\User\Logout;
 use Inferno\Foundation\Events\User\PasswordChanged;
+use Inferno\Foundation\Events\User\UserEdited;
 use Inferno\Foundation\Services\Logger;
 
 class UserEventListeners
@@ -54,6 +55,15 @@ class UserEventListeners
 	}
 
 	/**
+	 * Handling the user edited event.
+	 */
+	public function userEdited(UserEdited $event)
+	{
+		$name = $event->getName();
+	    $this->logger->log("A user {$name} was edited.");
+	}
+
+	/**
 	 * This is the function to subscribe the Events
 	 */
 	public function subscribe($events)
@@ -63,5 +73,6 @@ class UserEventListeners
 		$events->listen(Login::class, "{$class}@userLoggedIn");
 		$events->listen(Logout::class, "{$class}@userLogout");
 		$events->listen(Deleted::class, "{$class}@userDeleted");
+		$events->listen(UserEdited::class, "{$class}@userEdited");
 	}
 }
