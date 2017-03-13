@@ -13,6 +13,11 @@
             "Inferno\\Foundation\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Inferno\\Foundation\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "dev",
     "require": {
         "illuminate/support": "~5",

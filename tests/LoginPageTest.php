@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Browser;
+namespace Inferno\Foundation\Tests;
 
 use App\User;
 use Laravel\Dusk\Browser;
