@@ -3,6 +3,7 @@
 namespace Inferno\Foundation\Listeners;
 
 use Illuminate\Support\Facades\Auth;
+use Inferno\Foundation\Events\User\Deleted;
 use Inferno\Foundation\Events\User\Login;
 use Inferno\Foundation\Events\User\Logout;
 use Inferno\Foundation\Events\User\PasswordChanged;
@@ -46,6 +47,12 @@ class UserEventListeners
 		$this->logger->log("User {$userName} password changed");
 	}
 
+	public function userDeleted(Deleted $event)
+	{
+	    $name = $event->getName();
+	    $this->logger->log("A user {$name} was deleted.");
+	}
+
 	/**
 	 * This is the function to subscribe the Events
 	 */
@@ -55,5 +62,6 @@ class UserEventListeners
 		$events->listen(PasswordChanged::class, "{$class}@userPasswordChanged");
 		$events->listen(Login::class, "{$class}@userLoggedIn");
 		$events->listen(Logout::class, "{$class}@userLogout");
+		$events->listen(Deleted::class, "{$class}@userDeleted");
 	}
 }

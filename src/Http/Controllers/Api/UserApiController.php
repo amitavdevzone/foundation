@@ -4,7 +4,10 @@ namespace Inferno\Foundation\Http\Controllers\Api;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inferno\Foundation\Events\User\Deleted;
 use Inferno\Foundation\Http\Controllers\Controller;
+use Inferno\Foundation\Models\Tokens;
 use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 
 class UserApiController extends Controller
@@ -71,5 +74,34 @@ class UserApiController extends Controller
         }
 
         return response(['data' => $finalData], 200);
+    }
+
+    /**
+     * Handling the delete user request.
+     */
+    public function postDeleteUser(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            // remove the user
+            $user = User::find($request->input('userId'));
+
+            // remove the token
+            $token = Tokens::where('user_id', $user->id)
+                ->first();
+
+            if ($token)
+                $token->delete();
+
+            event(new Deleted($user));
+            $user->delete();
+
+            DB::commit();
+            return response(['data' => $user], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $message = $e->getMessage();
+        }
     }
 }

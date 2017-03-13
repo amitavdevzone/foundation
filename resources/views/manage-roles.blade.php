@@ -36,7 +36,7 @@
                   <td>{{$role->id}}</td>
                   <td>{{ucwords($role->name)}}</td>
                   <td class="col-sm-3">
-                    @if($role->id != 1 && $role->id != 2)
+                    @if($role->name != 'admin' && $role->name != 'auth user')
                       <div class="pull-left">
                         <a href="{{route('edit-role', $role->id)}}" class="btn btn-primary btn-xs">
                           <i class="fa fa-edit"></i> Edit

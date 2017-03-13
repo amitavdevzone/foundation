@@ -3,10 +3,12 @@
 namespace Inferno\Foundation;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Inferno\Foundation\Commands\InstallCommand;
 use Inferno\Foundation\FoundationEventProvider;
+use Inferno\Foundation\Http\Middlewares\RoleMiddleware;
 use Inferno\Foundation\Repositories\Watchdog\EloquentWatchdog;
 use Inferno\Foundation\Repositories\Watchdog\WatchdogRepository;
 use Laracasts\Flash\FlashServiceProvider;
@@ -51,7 +53,7 @@ class FoundationServiceProvider extends ServiceProvider
      * This is the boot function where I will load and make other settings
      * required when the service provider is instantiated.
      */
-    public function boot()
+    public function boot(Router $router)
     {
         Schema::defaultStringLength(191);
 
@@ -59,6 +61,12 @@ class FoundationServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadViewsFrom(__DIR__.'/./../resources/views', 'inferno-foundation');
+
+        if (app()->version() >= 5.4) {
+            $router->aliasMiddleware('role', RoleMiddleware::class);
+        } else {
+            $router->middleware('role', RoleMiddleware::class);
+        }
     }
 
     /**

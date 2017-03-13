@@ -3,6 +3,7 @@
 namespace Inferno\Foundation;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Inferno\Foundation\Listeners\RolePermissionEventListner;
 use Inferno\Foundation\Listeners\UserEventListeners;
 
 class FoundationEventProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class FoundationEventProvider extends ServiceProvider
      */
     protected $subscribe = [
         UserEventListeners::class,
+        RolePermissionEventListner::class,
     ];
 
     /**

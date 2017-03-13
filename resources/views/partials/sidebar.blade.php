@@ -35,6 +35,7 @@
       </li>
       @stack('sidebar-links')
 
+      @role('admin')
       <li class="{{ Request::is('admin/*') ? 'active' : ''  }} treeview">
         <a href="#">
           <i class="fa fa-user"></i> <span>Administration</span>
@@ -46,8 +47,12 @@
           <li class="{{ Request::is('admin/user/roles') ? 'active' : ''  }}">
             <a href="{{route('manage-roles')}}"><i class="fa fa-circle-o"></i> Manage Roles</a>
           </li>
+          <li class="{{ Request::is('admin/user/permissions') ? 'active' : ''  }}">
+            <a href="{{route('manage-permissions')}}"><i class="fa fa-circle-o"></i> Manage Permissions</a>
+          </li>
         </ul>
       </li>
+      @endrole
 
       <li class="{{ Request::is('activities') ? 'active' : ''  }} treeview">
         <a href="{{route('user-activities')}}"><i class="fa fa-line-chart"></i><span>My activities</span></a>

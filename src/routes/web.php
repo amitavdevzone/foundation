@@ -32,8 +32,18 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
         Route::post('user/profile', ['as' => 'update-profile', 'uses' => 'HomeController@postUpdateProfile']);
         Route::post('user/password-change', ['as' => 'change-password', 'uses' => 'HomeController@postHandlePasswordChange']);
 
-        Route::get('admin/user/roles', ['as' => 'manage-roles', 'uses' => 'AdminController@getManageRoles']);
-        Route::post('admin/user/role-save', ['as' => 'save-role', 'uses' => 'AdminController@postSaveRoles']);
-        Route::get('admin/user/role/{id}', ['as' => 'edit-role', 'uses' => 'AdminController@getManageRoles']);
+        Route::group(['middleware' => 'role:admin'], function() {
+            /*Roles*/
+            Route::get('admin/user/roles', ['as' => 'manage-roles', 'uses' => 'AdminController@getManageRoles']);
+            Route::post('admin/user/role-save', ['as' => 'save-role', 'uses' => 'AdminController@postSaveRoles']);
+            Route::get('admin/user/role/{id}', ['as' => 'edit-role', 'uses' => 'AdminController@getEditRole']);
+            Route::post('admin/user/role/update', ['as' => 'update-role', 'uses' => 'AdminController@postUpdateRole']);
+
+            /*Permissions*/
+            Route::get('admin/user/permissions', ['as' => 'manage-permissions', 'uses' => 'AdminController@getManagePermission']);
+            Route::post('admin/user/permission-save', ['as' => 'save-permission', 'uses' => 'AdminController@postSavePermission']);
+            Route::get('admin/user/permission/{id}', ['as' => 'edit-permission', 'uses' => 'AdminController@getEditPermission']);
+            Route::post('admin/user/permission/update', ['as' => 'update-permission', 'uses' => 'AdminController@postUpdatePermission']);
+        });
     });
 });
