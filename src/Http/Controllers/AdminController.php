@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\Permissions\PermissionCreated;
 use Inferno\Foundation\Events\Roles\RoleCreated;
+use Inferno\Foundation\Events\User\UserCreated;
 use Inferno\Foundation\Events\User\UserEdited;
 use Inferno\Foundation\Http\Requests\SaveNewUserRequest;
 use Inferno\Foundation\Http\Requests\SavePermissionRequest;
@@ -175,7 +176,6 @@ class AdminController extends Controller
      */
     public function postAddNewUser(SaveNewUserRequest $request)
     {
-        // create the user
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -188,6 +188,8 @@ class AdminController extends Controller
         if (!$user->hasRole('auth user')) {
             $user->assignRole('auth user');
         }
+
+        event(new UserCreated($user));
 
         flash('User created');
         return redirect()->back();

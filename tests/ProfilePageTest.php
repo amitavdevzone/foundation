@@ -104,4 +104,26 @@ class ProfilePageTest extends DuskTestCase
             	->click($this->changePasswordBtn);
         });
     }
+
+    public function test_display_name_change_is_reflected()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::where('email', 'admin@admin.com')->first();
+            $browser->loginAs(User::find($user->id))
+                ->visit('/user/profile')
+                ->assertSeeIn('.user-panel .info', $user->name)
+                ->type('name', 'Admin Test')
+                ->type('country', 'India Test')
+                ->type('designation', 'Developer Test')
+                ->click('#profiled-edit-form .btn-success')
+                ->assertPathIs('/user/profile')
+                ->assertInputValue('name', 'Admin Test')
+                ->assertInputValue('country', 'India Test')
+                ->assertInputValue('designation', 'Developer Test')
+                ->type('name', 'Administrator')
+                ->type('country', 'India')
+                ->type('designation', 'Developer')
+                ->click('#profiled-edit-form .btn-success');
+        });
+    }
 }
