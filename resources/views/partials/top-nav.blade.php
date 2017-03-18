@@ -40,7 +40,7 @@
                 <li>
                   <a href="#">
                     <div class="pull-left">
-                      <img src="{{url('adminlte/avatar.png')}}" class="img-circle" alt="User Image">
+                      <img src="{{url('vendor/amitavdevzone/foundation/assets/img/avatar.png')}}" class="img-circle" alt="User Image">
                     </div>
                     <h4>
                       AdminLTE Design Team
@@ -52,7 +52,7 @@
                 <li>
                   <a href="#">
                     <div class="pull-left">
-                      <img src="{{url('adminlte/avatar.png')}}" class="img-circle" alt="User Image">
+                      <img src="{{url('vendor/amitavdevzone/foundation/assets/img/avatar.png')}}" class="img-circle" alt="User Image">
                     </div>
                     <h4>
                       Developers
@@ -64,7 +64,7 @@
                 <li>
                   <a href="#">
                     <div class="pull-left">
-                      <img src="{{url('adminlte/avatar.png')}}" class="img-circle" alt="User Image">
+                      <img src="{{url('vendor/amitavdevzone/foundation/assets/img/avatar.png')}}" class="img-circle" alt="User Image">
                     </div>
                     <h4>
                       Sales Department
@@ -76,7 +76,7 @@
                 <li>
                   <a href="#">
                     <div class="pull-left">
-                      <img src="{{url('adminlte/avatar.png')}}" class="img-circle" alt="User Image">
+                      <img src="{{url('vendor/amitavdevzone/foundation/assets/img/avatar.png')}}" class="img-circle" alt="User Image">
                     </div>
                     <h4>
                       Reviewers

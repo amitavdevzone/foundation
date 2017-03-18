@@ -30,18 +30,29 @@ your config folder
     Inferno\Foundation\FoundationServiceProvider::class
 
 Once, done you will need to run the publish command. Inferno has a lot of things
-to publish like the migrations, seeders, assets for themes, views etc.
+to publish like the migrations, seeders, assets for themes, views etc. Plus we
+would also need to get some of the migrations from Spatie Laravel Permission.
 
     php artisan vendor:publish --provider="Inferno\Foundation\FoundationServiceProvider" --force
+    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
 
 Once this is done, you will need to make a few additions to your user model like
+
+## Additions to User model
 1. You need to add the Presentable trait to the User model. We will be using the Presenter package from Laracasts and so this setting is important.
-2. You will need to add the profile relation with the user
+2. You need to add the HasRoles trait which comes with Spatie Permission package
+3. You need to add the HasApiTokens trait from Laravel Passport for ApiTokens
+3. You will need to add the profile relation with the user
 
 Add the following code to your User model inside your app directory
 
-    use PresentableTrait;
+    use Notifiable, PresentableTrait, HasRoles, HasApiTokens;
+
     protected $presenter = UserPresenter::class;
+
+    protected $fillable = [
+        'name', 'email', 'password', 'active'
+    ];
 
     public function profile()
     {
@@ -50,6 +61,13 @@ Add the following code to your User model inside your app directory
 
 And make sure you have an additional $fillable property 'active' which we are
 using to deletect whether the user is active or not.
+
+You need to also add Passport::routes() to the AuthServiceProvider as per the
+Passport installation process and you need to add the middleware to web section
+of the middleware groups so that the ApiToken is created for each request to any
+api route as per Passport installation.
+
+    \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.
