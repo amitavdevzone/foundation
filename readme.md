@@ -62,12 +62,20 @@ Add the following code to your User model inside your app directory
 And make sure you have an additional $fillable property 'active' which we are
 using to deletect whether the user is active or not.
 
-You need to also add Passport::routes() to the AuthServiceProvider as per the
-Passport installation process and you need to add the middleware to web section
-of the middleware groups so that the ApiToken is created for each request to any
-api route as per Passport installation.
+You need to also add:
+
+	Passport::routes();
+
+to the AuthServiceProvider as per the Passport installation process and you need
+to add the middleware to web section of the middleware groups so that the
+ApiToken is created for each request to any api route as per Passport installation.
 
     \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+
+And then, we need to run two commands:
+
+	php artisan passport:install
+	php artian inferno:install
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.
