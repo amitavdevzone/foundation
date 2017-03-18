@@ -74,21 +74,71 @@
         {{--Box--}}
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Add a new Role</h3>
+            <h3 class="box-title">Add a new User</h3>
           </div>
-          <form action="{{route('save-role')}}" method="post" id="role-save-form">
+          <form action="{{route('add-user')}}" method="post" id="user-save-form">
             <!-- /.box-header -->
             <div class="box-body">
               {{csrf_field()}}
               <div class="form-group">
                 <label for="">Name:</label>
                 <input type="text"
-                       placeholder="Enter role name"
+                       placeholder="Enter user name"
                        name="name"
                        value="{{old('name')}}"
                        class="form-control">
                 <div class="HelpText error">{{$errors->first('name')}}</div>
               </div>
+
+              <div class="form-group">
+                <label for="">Email:</label>
+                <input type="text"
+                       placeholder="Enter user email address"
+                       name="email"
+                       value="{{old('email')}}"
+                       class="form-control">
+                <div class="HelpText error">{{$errors->first('email')}}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Password:</label>
+                <input type="password"
+                       placeholder="Enter user password"
+                       name="password"
+                       value="{{old('password')}}"
+                       class="form-control">
+                <div class="HelpText error">{{$errors->first('password')}}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Confirm password:</label>
+                <input type="password"
+                       placeholder="Enter user password again"
+                       name="confirm_password"
+                       value="{{old('confirm_password')}}"
+                       class="form-control">
+                <div class="HelpText error">{{$errors->first('confirm_password')}}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="">User status:</label>
+                <select name="active" id="active" class="form-control">
+                  <option value="0" {{ (old('active') == 0) ? 'selected' : '' }}>Inactive</option>
+                  <option value="1" {{ (old('active') == 1) ? 'selected' : '' }}>Active</option>
+                </select>
+                <div class="HelpText error">{{$errors->first('active')}}</div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Roles:</label>
+                <select name="roles[]" id="roles" class="form-control" multiple>
+                  @foreach ($roles as $role)
+                    <option value="{{$role->name}}">{{$role->name}}</option>
+                  @endforeach
+                </select>
+                <div class="HelpText error">{{$errors->first('roles')}}</div>
+              </div>
+
             </div>
             <!-- /.box-body -->
 
@@ -101,4 +151,16 @@
       </div>
     </div>
   </div>
+@endsection
+
+@section('styles')
+  <link rel="stylesheet" href="{{ config('foundation.assets_path') . '/css/chosen.min.css' }}">
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        $('#roles').chosen();
+    });
+</script>
 @endsection

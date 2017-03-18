@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\Permissions\PermissionCreated;
 use Inferno\Foundation\Events\Roles\RoleCreated;
 use Inferno\Foundation\Events\User\UserEdited;
+use Inferno\Foundation\Http\Requests\SaveNewUserRequest;
 use Inferno\Foundation\Http\Requests\SavePermissionRequest;
 use Inferno\Foundation\Http\Requests\SaveRoleRequest;
 use Spatie\Permission\Models\Permission;
@@ -118,7 +119,8 @@ class AdminController extends Controller
     public function getManageUsers()
     {
         $users = User::orderBy('name', 'asc')->paginate(10);
-        return view('inferno-foundation::manage-users', compact('users'));
+        $roles = Role::orderBy('name', 'asc')->get();
+        return view('inferno-foundation::manage-users', compact('users', 'roles'));
     }
 
     /**
@@ -165,6 +167,29 @@ class AdminController extends Controller
 
         flash('User updated successfully.');
         event(new UserEdited($user));
+        return redirect()->back();
+    }
+
+    /**
+     * Handling the request to create a new user
+     */
+    public function postAddNewUser(SaveNewUserRequest $request)
+    {
+        // create the user
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'active' => $request->input('active'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        $user->assignRole($request->input('roles'));
+
+        if (!$user->hasRole('auth user')) {
+            $user->assignRole('auth user');
+        }
+
+        flash('User created');
         return redirect()->back();
     }
 }

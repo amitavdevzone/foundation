@@ -85,14 +85,13 @@ class UserApiController extends Controller
             DB::beginTransaction();
 
             // remove the user
-            $user = User::find($request->input('userId'));
+            $user = User::find($request->input('id'));
 
             // remove the token
-            $token = Tokens::where('user_id', $user->id)
-                ->first();
+            // $token = Tokens::where('user_id', $user->id)->first();
 
-            if ($token)
-                $token->delete();
+            // if ($token)
+            //     $token->delete();
 
             event(new Deleted($user));
             $user->delete();
@@ -102,6 +101,7 @@ class UserApiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             $message = $e->getMessage();
+            \Log::info($message);
         }
     }
 }

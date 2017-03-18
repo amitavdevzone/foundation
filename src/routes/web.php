@@ -26,11 +26,13 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
         Route::post('user/profile', ['as' => 'update-profile', 'uses' => 'HomeController@postUpdateProfile']);
         Route::post('user/password-change', ['as' => 'change-password', 'uses' => 'HomeController@postHandlePasswordChange']);
 
+        /*Admin routes*/
         Route::group(['middleware' => 'role:admin'], function() {
             /*User management*/
             Route::get('admin/user/manage', ['as' => 'manage-users', 'uses' => 'AdminController@getManageUsers']);
             Route::get('admin/user/edit/{id}', ['as' => 'edit-user', 'uses' => 'AdminController@getEditUser']);
             Route::post('admin/user/update', ['as' => 'update-user', 'uses' => 'AdminController@postUpdateUser']);
+            Route::post('admin/user/add', ['as' => 'add-user', 'uses' => 'AdminController@postAddNewUser']);
 
             /*Roles*/
             Route::get('admin/user/roles', ['as' => 'manage-roles', 'uses' => 'AdminController@getManageRoles']);
