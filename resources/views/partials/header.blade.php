@@ -24,5 +24,6 @@
 
   <script>
     window.Laravel = { csrfToken: '{{ csrf_token() }}' }
+    window.inferno = { host: '{{ url("/") }}/' }
   </script>
 </head>

@@ -74,8 +74,9 @@ ApiToken is created for each request to any api route as per Passport installati
 
 And then, we need to run two commands:
 
+	php artisan migrate
 	php artisan passport:install
-	php artian inferno:install
+	php artisan inferno:install
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.
