@@ -57,10 +57,16 @@ Add the following code to your User model inside your app directory
     public function profile()
     {
         return $this->hasOne('Inferno\Foundation\Models\Profile');
+    }    
+
+
+    public function token()
+    {
+        return $this->hasMany('Inferno\Foundation\Models\\Token');
     }
 
 And make sure you have an additional $fillable property 'active' which we are
-using to deletect whether the user is active or not.
+using to detect whether the user is active or not.
 
 You need to also add:
 

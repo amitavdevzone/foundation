@@ -3,9 +3,13 @@
 namespace Inferno\Foundation\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inferno\Foundation\Events\User\Login;
+use Inferno\Foundation\Mail\ForgotPasswordMail;
+use Inferno\Foundation\Models\Tokens;
 
 class GuestController extends Controller
 {
@@ -63,5 +67,23 @@ class GuestController extends Controller
             flash('This email address is not in our records.', 'warning');
             return redirect()->back();
         }
+
+        $token = Tokens::create([
+            'user_id' => $user->id,
+            'token' => uniqid(),
+            'created_at' => Carbon::now(),
+            'expire_at' => Carbon::now()->addHour(),
+            'type' => 'forgot-password',
+        ]);
+
+        Mail::to($user)->send(new ForgotPasswordMail($token, $request));
+
+        flash('An email has been sent to your id');
+        return redirect()->route('login');
+    }
+
+    public function getResetPassword($token)
+    {
+        return $token;
     }
 }
