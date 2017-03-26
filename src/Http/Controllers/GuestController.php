@@ -6,7 +6,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\User\Login;
 use Inferno\Foundation\Mail\ForgotPasswordMail;
 use Inferno\Foundation\Models\Tokens;
@@ -54,6 +56,9 @@ class GuestController extends Controller
     /**
      * This function will handle the request to enter email address
      * and receive the forgot password link by email.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postSendForgotPassword(Request $request)
     {
@@ -72,7 +77,7 @@ class GuestController extends Controller
             'user_id' => $user->id,
             'token' => uniqid(),
             'created_at' => Carbon::now(),
-            'expire_at' => Carbon::now()->addHour(),
+            'expiry_at' => Carbon::now()->addHour(),
             'type' => 'forgot-password',
         ]);
 
@@ -82,8 +87,47 @@ class GuestController extends Controller
         return redirect()->route('login');
     }
 
+    /**
+     * Handling the page for the reset password form.
+     *
+     * @param $token
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getResetPassword($token)
     {
-        return $token;
+        return view('inferno-foundation::reset-password',compact('token'));
+    }
+
+    public function postChangePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6',
+            'confirm_password' => 'required|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            flash('Both passwords are not same', 'warning');
+            return redirect()->back();
+        }
+
+        $token = $request->input('token');
+        $dBToken = DB::table('tokens')
+            ->where('token', $token)
+            ->where('expiry_at', '>', Carbon::now())
+            ->first();
+
+        if (!$dBToken) {
+            flash('Something went wrong', 'warning');
+            return redirect()->back();
+        }
+
+        $user = User::where('id', $dBToken->user_id)->first();
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        DB::table('tokens')->where('id', $dBToken->id)->delete();
+
+        flash('Password changes successfully');
+        return redirect()->route('login');
     }
 }

@@ -16,6 +16,7 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
     Route::get('forgot-password', ['as' => 'forgot-password', 'uses' => 'GuestController@getForgotPassword']);
     Route::post('password/send', ['as' => 'password-send', 'uses' => 'GuestController@postSendForgotPassword']);
     Route::get('reset-password/{token}', ['as' => 'reset-password', 'uses' => 'GuestController@getResetPassword']);
+    Route::post('change-password', ['as' => 'change-user-password', 'uses' => 'GuestController@postChangePassword']);
 
     /*Authenticated routes*/
     Route::group(['middleware' => 'auth'], function() {
