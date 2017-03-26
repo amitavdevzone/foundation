@@ -59,7 +59,6 @@ Add the following code to your User model inside your app directory
         return $this->hasOne('Inferno\Foundation\Models\Profile');
     }    
 
-
     public function token()
     {
         return $this->hasMany('Inferno\Foundation\Models\\Token');
