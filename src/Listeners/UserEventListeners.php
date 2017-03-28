@@ -9,6 +9,7 @@ use Inferno\Foundation\Events\User\Logout;
 use Inferno\Foundation\Events\User\PasswordChanged;
 use Inferno\Foundation\Events\User\UserCreated;
 use Inferno\Foundation\Events\User\UserEdited;
+use Inferno\Foundation\Events\User\UserRegistered;
 use Inferno\Foundation\Services\Logger;
 
 class UserEventListeners
@@ -73,6 +74,12 @@ class UserEventListeners
 	    $this->logger->log("A user {$name} was created.");
 	}
 
+	public function userRegistered(UserRegistered $event)
+	{
+        $name = $event->getName();
+        $this->logger->log("A user {$name} has registered. Activation pending");
+	}
+
 	/**
 	 * This is the function to subscribe the Events
 	 */
@@ -85,5 +92,6 @@ class UserEventListeners
 		$events->listen(Deleted::class, "{$class}@userDeleted");
 		$events->listen(UserEdited::class, "{$class}@userEdited");
 		$events->listen(UserCreated::class, "{$class}@userCreated");
+		$events->listen(UserRegistered::class, "{$class}@userRegistered");
 	}
 }

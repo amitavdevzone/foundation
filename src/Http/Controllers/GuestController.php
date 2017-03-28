@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\User\Login;
+use Inferno\Foundation\Events\User\UserRegistered;
+use Inferno\Foundation\Http\Requests\UserRegisterRequest;
 use Inferno\Foundation\Mail\ForgotPasswordMail;
+use Inferno\Foundation\Models\Profile;
 use Inferno\Foundation\Models\Tokens;
 
 class GuestController extends Controller
@@ -129,5 +132,35 @@ class GuestController extends Controller
 
         flash('Password changes successfully');
         return redirect()->route('login');
+    }
+
+    public function getUserRegistration()
+    {
+        return view('inferno-foundation::user-register');
+    }
+
+    /**
+     * Handling the registration request and creating the user.
+     * 
+     * @param UserRegisterRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function postHandleUserRegistration(UserRegisterRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'active' => 0,
+        ]);
+
+        Profile::create([
+            'user_id' => $user->id,
+        ]);
+
+        event(new UserRegistered($user));
+
+        flash('Your account is created and required approval.');
+        return redirect(route('login'));
     }
 }

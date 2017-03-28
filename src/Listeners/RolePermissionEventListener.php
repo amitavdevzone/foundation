@@ -8,7 +8,7 @@ use Inferno\Foundation\Events\Roles\RoleCreated;
 use Inferno\Foundation\Events\Roles\RoleDeleted;
 use Inferno\Foundation\Services\Logger;
 
-class RolePermissionEventListner
+class RolePermissionEventListener
 {
 	protected $logger;
 	/**
@@ -60,7 +60,7 @@ class RolePermissionEventListner
 	 */
 	public function subscribe($events)
 	{
-		$class = 'Inferno\Foundation\Listeners\RolePermissionEventListner';
+		$class = 'Inferno\Foundation\Listeners\RolePermissionEventListener';
 		$events->listen(RoleCreated::class, "{$class}@roleCreated");
 		$events->listen(RoleDeleted::class, "{$class}@roleDeleted");
 		$events->listen(PermissionCreated::class, "{$class}@permissionCreated");

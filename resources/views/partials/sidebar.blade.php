@@ -53,6 +53,9 @@
           <li class="{{ Request::is('admin/user/permissions') ? 'active' : ''  }}">
             <a href="{{route('manage-permissions')}}"><i class="fa fa-circle-o"></i> Manage Permissions</a>
           </li>
+          <li class="{{ Request::is('admin/settings/manage') ? 'active' : ''  }}">
+            <a href="{{route('manage-settings')}}"><i class="fa fa-circle-o"></i> Manage Settings</a>
+          </li>
         </ul>
       </li>
       @endrole

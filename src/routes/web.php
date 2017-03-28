@@ -18,6 +18,11 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
     Route::get('reset-password/{token}', ['as' => 'reset-password', 'uses' => 'GuestController@getResetPassword']);
     Route::post('change-password', ['as' => 'change-user-password', 'uses' => 'GuestController@postChangePassword']);
 
+    if (\Setting::get('user_registration')) {
+        Route::get('user-register', ['as' => 'user-registration', 'uses' => 'GuestController@getUserRegistration']);
+        Route::post('user-register', ['as' => 'do-registration', 'uses' => 'GuestController@postHandleUserRegistration']);
+    }
+
     /*Authenticated routes*/
     Route::group(['middleware' => 'auth'], function() {
         Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@getHomePage']);
@@ -47,6 +52,11 @@ Route::group(['namespace' => $namespace, 'middleware' => 'web'], function () {
             Route::post('admin/user/permission-save', ['as' => 'save-permission', 'uses' => 'AdminController@postSavePermission']);
             Route::get('admin/user/permission/{id}', ['as' => 'edit-permission', 'uses' => 'AdminController@getEditPermission']);
             Route::post('admin/user/permission/update', ['as' => 'update-permission', 'uses' => 'AdminController@postUpdatePermission']);
+
+            /*Settings*/
+            Route::get('admin/settings/manage', ['as' => 'manage-settings', 'uses' => 'AdminController@getSettingsPage']);
+            Route::post('admin/settings/save', ['as' => 'save-settings', 'uses' => 'AdminController@postSaveSettings']);
+            Route::post('admin/settings/add', ['as' => 'add-setting', 'uses' => 'AdminController@postAddNewSetting']);
         });
     });
 });

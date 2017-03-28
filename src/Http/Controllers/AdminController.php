@@ -2,12 +2,14 @@
 
 namespace Inferno\Foundation\Http\Controllers;
 
+use anlutro\LaravelSettings\SettingsManager;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Inferno\Foundation\Events\Permissions\PermissionCreated;
 use Inferno\Foundation\Events\Roles\RoleCreated;
+use Inferno\Foundation\Events\Settings\SettingsCreated;
 use Inferno\Foundation\Events\User\UserCreated;
 use Inferno\Foundation\Events\User\UserEdited;
 use Inferno\Foundation\Http\Requests\SaveNewUserRequest;
@@ -27,9 +29,12 @@ class AdminController extends Controller
 		return view('inferno-foundation::manage-roles', compact('roles'));
 	}
 
-	/**
-	 * This function is handling the request to save a new Role.
-	 */
+    /**
+     * This function is handling the request to save a new Role.
+     *
+     * @param SaveRoleRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function postSaveRoles(SaveRoleRequest $request)
     {
         $role = Role::create(['name' => $request->input('name')]);
@@ -40,6 +45,9 @@ class AdminController extends Controller
 
     /**
      * Get the edit role page.
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEditRole($id)
     {
@@ -49,6 +57,9 @@ class AdminController extends Controller
 
     /**
      * Handle the edit role request.
+     *
+     * @param SaveRoleRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postUpdateRole(SaveRoleRequest $request)
     {
@@ -77,6 +88,9 @@ class AdminController extends Controller
 
     /**
      * Handle the save new permission request.
+     *
+     * @param SavePermissionRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postSavePermission(SavePermissionRequest $request)
     {
@@ -93,6 +107,9 @@ class AdminController extends Controller
 
     /**
      * Handle the edit permission page.
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEditPermission($id)
     {
@@ -103,6 +120,9 @@ class AdminController extends Controller
 
     /**
      * Handle the update permission request.
+     *
+     * @param SavePermissionRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postUpdatePermission(SavePermissionRequest $request)
     {
@@ -126,6 +146,9 @@ class AdminController extends Controller
 
     /**
      * This page will return the edit page user.
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEditUser($id)
     {
@@ -136,6 +159,9 @@ class AdminController extends Controller
 
     /**
      * Handle the User update request.
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
      */
     public function postUpdateUser(Request $request)
     {
@@ -172,7 +198,10 @@ class AdminController extends Controller
     }
 
     /**
-     * Handling the request to create a new user
+     * Handling the request to create a new user.
+     *
+     * @param SaveNewUserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postAddNewUser(SaveNewUserRequest $request)
     {
@@ -192,6 +221,74 @@ class AdminController extends Controller
         event(new UserCreated($user));
 
         flash('User created');
+        return redirect()->back();
+    }
+
+    public function getSettingsPage()
+    {
+        $settings = \Setting::all();
+        return view('inferno-foundation::manage-settings', compact('settings'));
+    }
+
+    /**
+     * Handling the save of settings.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postSaveSettings(Request $request)
+    {
+        $postData = $request->all();
+        unset($postData['_token']);
+        foreach ($postData as $key => $value) {
+            if ($value === 'true' || $value === 1) {
+                $value = true;
+            }
+
+            if ($value === 'false' || $value === 0) {
+                $value = false;
+            }
+
+            \Setting::set($key, $value);
+        }
+        \Setting::save();
+        flash('Settings were saved successfully');
+        return redirect()->back();
+    }
+
+    /**
+     * Handling the request to add a new setting.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postAddNewSetting(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'value' => 'required',
+        ]);
+
+        $value = $request->input('value');
+        $key = $request->input('name');
+        if ($value === 'true' || $value === 1) {
+            $value = true;
+        }
+
+        if ($value === 'false' || $value === 0) {
+            $value = false;
+        }
+
+        if ($validator->fails()) {
+            flash('Error in form', 'warning');
+            return redirect(route('manage-settings'))->withErrors($validator)->withInput();
+        }
+
+        \Setting::set($key, $value);
+        \Setting::save();
+        event(new SettingsCreated($key, $value));
+
+        flash('Setting added');
         return redirect()->back();
     }
 }
