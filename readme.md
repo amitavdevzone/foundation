@@ -27,14 +27,18 @@ run the below command:
 Once done, you will need to add the ServiceProvider to the app.php file inside
 your config folder
 
+```php
     Inferno\Foundation\FoundationServiceProvider::class
+```
 
 Once, done you will need to run the publish command. Inferno has a lot of things
 to publish like the migrations, seeders, assets for themes, views etc. Plus we
 would also need to get some of the migrations from Spatie Laravel Permission.
 
+```php
     php artisan vendor:publish --provider="Inferno\Foundation\FoundationServiceProvider" --force
     php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
+```
 
 Once this is done, you will need to make a few additions to your user model like
 
