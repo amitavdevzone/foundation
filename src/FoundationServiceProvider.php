@@ -88,7 +88,10 @@ class FoundationServiceProvider extends ServiceProvider
             ],
             'migrations' => [
                 "$basePath/publishable/database/migrations" => database_path('migrations'),
-            ]
+            ],
+            'settings' => [
+                "$basePath/publishable/settings.json" => storage_path('settings.json'),
+            ],
         ];
 
         foreach ($arrPublishable as $group => $paths) {

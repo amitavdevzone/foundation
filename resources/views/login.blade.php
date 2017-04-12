@@ -26,7 +26,9 @@
     </form>
     <br/>
     <a href="{{route('forgot-password')}}">I forgot my password</a><br>
-    <a href="{{route('user-registration')}}">I don't have an account</a><br>
+    @if(\Setting::get('user_registration'))
+      <a href="{{route('user-registration')}}">I don't have an account</a><br>
+    @endif
   </div>
   <!-- /.login-box-body -->
 @endsection
