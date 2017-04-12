@@ -2,7 +2,6 @@
 
 namespace Inferno\Foundation\Http\Controllers;
 
-use anlutro\LaravelSettings\SettingsManager;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,19 +14,21 @@ use Inferno\Foundation\Events\User\UserEdited;
 use Inferno\Foundation\Http\Requests\SaveNewUserRequest;
 use Inferno\Foundation\Http\Requests\SavePermissionRequest;
 use Inferno\Foundation\Http\Requests\SaveRoleRequest;
+use Inferno\Foundation\Models\Profile;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use anlutro\LaravelSettings\SettingsManager;
 
 class AdminController extends Controller
 {
-	/**
-	 * This is the function to return the Manage roles page.
-	 */
-	public function getManageRoles()
-	{
-		$roles = Role::orderBy('id', 'asc')->paginate(10);
-		return view('inferno-foundation::manage-roles', compact('roles'));
-	}
+    /**
+     * This is the function to return the Manage roles page.
+     */
+    public function getManageRoles()
+    {
+        $roles = Role::orderBy('id', 'asc')->paginate(10);
+        return view('inferno-foundation::manage-roles', compact('roles'));
+    }
 
     /**
      * This function is handling the request to save a new Role.
@@ -35,7 +36,7 @@ class AdminController extends Controller
      * @param SaveRoleRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-	public function postSaveRoles(SaveRoleRequest $request)
+    public function postSaveRoles(SaveRoleRequest $request)
     {
         $role = Role::create(['name' => $request->input('name')]);
         event(new RoleCreated($role));
@@ -217,6 +218,13 @@ class AdminController extends Controller
         if (!$user->hasRole('auth user')) {
             $user->assignRole('auth user');
         }
+
+        $profile = Profile::create([
+            'user_id' => $user->id,
+            'country' => 'India',
+            'designation' => 'Manager',
+            'options' => ['sidebar' => true]
+        ]);
 
         event(new UserCreated($user));
 
