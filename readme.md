@@ -87,6 +87,10 @@ ApiToken is created for each request to any api route as per Passport installati
     \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
 ```
 
+Then, as part of the Passport installation, we need to tell Laravel that we are
+going to use passport for authentication so inside config/auth.php we need to
+change the guards => api driver to **passport**.
+
 And then, we need to run two commands:
 
 ```php
