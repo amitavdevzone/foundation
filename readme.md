@@ -50,6 +50,7 @@ Once this is done, you will need to make a few additions to your user model like
 
 Add the following code to your User model inside your app directory
 
+```php
     use Notifiable, PresentableTrait, HasRoles, HasApiTokens;
 
     protected $presenter = UserPresenter::class;
@@ -61,31 +62,38 @@ Add the following code to your User model inside your app directory
     public function profile()
     {
         return $this->hasOne('Inferno\Foundation\Models\Profile');
-    }    
+    }
 
     public function token()
     {
         return $this->hasMany('Inferno\Foundation\Models\\Token');
     }
+```
 
 And make sure you have an additional $fillable property 'active' which we are
 using to detect whether the user is active or not.
 
 You need to also add:
 
+```php
 	Passport::routes();
+```
 
 to the AuthServiceProvider as per the Passport installation process and you need
 to add the middleware to web section of the middleware groups so that the
 ApiToken is created for each request to any api route as per Passport installation.
 
+```php
     \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+```
 
 And then, we need to run two commands:
 
+```php
 	php artisan migrate
 	php artisan passport:install
 	php artisan inferno:install
+```
 
 Once these steps are done, you can run the migrations and run the seeders to get
 started with your Inferno app and start coding for your next big idea.
