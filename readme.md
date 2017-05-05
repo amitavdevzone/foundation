@@ -28,7 +28,7 @@ Once done, you will need to add the ServiceProvider to the app.php file inside
 your config folder
 
 ```php
-    Inferno\Foundation\FoundationServiceProvider::class
+Inferno\Foundation\FoundationServiceProvider::class
 ```
 
 Once, done you will need to run the publish command. Inferno has a lot of things
@@ -36,8 +36,8 @@ to publish like the migrations, seeders, assets for themes, views etc. Plus we
 would also need to get some of the migrations from Spatie Laravel Permission.
 
 ```php
-    php artisan vendor:publish --provider="Inferno\Foundation\FoundationServiceProvider" --force
-    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Inferno\Foundation\FoundationServiceProvider" --force
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
 ```
 
 Once this is done, you will need to make a few additions to your user model like
@@ -51,23 +51,23 @@ Once this is done, you will need to make a few additions to your user model like
 Add the following code to your User model inside your app directory
 
 ```php
-    use Notifiable, PresentableTrait, HasRoles, HasApiTokens;
+use Notifiable, PresentableTrait, HasRoles, HasApiTokens;
 
-    protected $presenter = UserPresenter::class;
+protected $presenter = UserPresenter::class;
 
-    protected $fillable = [
-        'name', 'email', 'password', 'active'
-    ];
+protected $fillable = [
+    'name', 'email', 'password', 'active'
+];
 
-    public function profile()
-    {
-        return $this->hasOne('Inferno\Foundation\Models\Profile');
-    }
+public function profile()
+{
+    return $this->hasOne('Inferno\Foundation\Models\Profile');
+}
 
-    public function token()
-    {
-        return $this->hasMany('Inferno\Foundation\Models\\Token');
-    }
+public function token()
+{
+    return $this->hasMany('Inferno\Foundation\Models\\Token');
+}
 ```
 
 And make sure you have an additional $fillable property 'active' which we are
@@ -76,7 +76,7 @@ using to detect whether the user is active or not.
 You need to also add:
 
 ```php
-	Passport::routes();
+    Passport::routes();
 ```
 
 to the AuthServiceProvider as per the Passport installation process and you need
@@ -90,9 +90,9 @@ ApiToken is created for each request to any api route as per Passport installati
 And then, we need to run two commands:
 
 ```php
-	php artisan migrate
-	php artisan passport:install
-	php artisan inferno:install
+php artisan migrate
+php artisan passport:install
+php artisan inferno:install
 ```
 
 Once these steps are done, you can run the migrations and run the seeders to get
